@@ -153,7 +153,7 @@ static void update_person(unsigned ix, float et) {
         people[ix].theta = atan2f(people[ix].z, people[ix].x) * 180.0f / PI;
         if (people[ix].theta < 0)
           people[ix].theta += 360;
-        people[ix].theta = 180 - people[ix].theta;
+        people[ix].theta = people[ix].theta + 180;
 
         people[ix].vtheta /= 8.0f;
       }
