@@ -54,8 +54,8 @@
 #define NUM_PEOPLE (NUM_NPCS+1)
 #define PERSON_SPEED 1.0f
 #define PLAYER_SPEED 1.5f
-#define MAX_VTHETA 15.0f
-#define PLAYER_VTHETA 90.0f
+#define MAX_VTHETA 30.0f
+#define PLAYER_VTHETA 45.0f
 #define SLEEP_TIME 4.0f
 #define SLEEP_TIME_OFF 1.5f
 #define MOVE_TIME 10.0f
@@ -145,7 +145,7 @@ static void update_person(unsigned ix, float et) {
       /* Move around a bit */
       people[ix].is_moving = 1;
       people[ix].time_until_state_change = randf()*MOVE_TIME + MOVE_TIME_OFF;
-      people[ix].vtheta = (2.0f*randf() - 1.0f) * MAX_VTHETA;
+      people[ix].vtheta = (2.0f*randf() - 1.0f) * MAX_VTHETA * randf();
 
       /* Direct toward centre if too far away */
       if (MAP_MAX_COORD*0.75f <
