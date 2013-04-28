@@ -42,6 +42,7 @@
 #include "person.h"
 #include "weapon.h"
 #include "floor.h"
+#include "common.h"
 
 int main(int argc, char** argv) {
   const SDL_VideoInfo* vidinfo;
@@ -118,7 +119,7 @@ int main(int argc, char** argv) {
   glFogi(GL_FOG_MODE, GL_LINEAR);
   glFogf(GL_FOG_DENSITY, 0.25f);
   glFogf(GL_FOG_START, 1.0f);
-  glFogf(GL_FOG_END, 128.0f);
+  glFogf(GL_FOG_END, (float)MAP_MAX_COORD*2);
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
