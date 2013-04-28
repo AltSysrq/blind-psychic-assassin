@@ -31,8 +31,131 @@
 #include <SDL.h>
 
 #include <stdio.h>
+#include <stdlib.h>
 
-int main(void) {
-  printf("hello world\n");
-  return 0;
+#include "person.h"
+#include "weapon.h"
+#include "floor.h"
+
+int main(int argc, char** argv) {
+  const SDL_VideoInfo* vidinfo;
+  SDL_Surface* screen;
+  float vheight;
+  int running = 1;
+  Uint32 last_update, now;
+  const char* wasd = "liae";
+  SDL_Event evt;
+ 
+  /* Initialise */
+  if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO)) {
+    fprintf(stderr, "Unable to initialise SDL: %s\n", SDL_GetError());
+    return EXIT_FAILURE;
+  }
+
+  /* Shut SDL down once the program completes */
+  atexit(SDL_Quit);
+
+  /* Set video mode up */
+  vidinfo = SDL_GetVideoInfo();
+  if (!vidinfo) {
+    fprintf(stderr, "Unable to get current video mode info: %s\n",
+            SDL_GetError());
+    return EXIT_FAILURE;
+  }
+
+  vheight = vidinfo->current_h / (float)vidinfo->current_w;
+  screen = SDL_SetVideoMode(vidinfo->current_w,
+                            vidinfo->current_h,
+                            0,
+                            SDL_OPENGL | SDL_FULLSCREEN);
+  if (!screen) {
+    fprintf(stderr, "Unable to create SDL screen: %s\n",
+            SDL_GetError());
+    return EXIT_FAILURE;
+  }
+
+  /* Some WMs, such as early versions of kwin4, need to be reminded that
+   * fullscreen windows get input.
+   */
+  SDL_WM_GrabInput(SDL_GRAB_ON);
+
+  /* Set OpenGL up */
+  glViewport(0, 0, vidinfo->current_w, vidinfo->current_h);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glEnable(GL_DEPTH_TEST);
+  glEnable(GL_FOG);
+  glFogi(GL_FOG_MODE, GL_LINEAR);
+  glFogf(GL_FOG_DENSITY, 0.25f);
+  glFogf(GL_FOG_START, 1.0f);
+  glFogf(GL_FOG_END, 128.0f);
+
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glFrustum(-1, 1, -vheight, vheight, 1.0f, 128.0f);
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+
+  /* Loop until quit */
+  last_update = SDL_GetTicks();
+  while (running) {
+    now = SDL_GetTicks();
+
+    /* Update-draw cycle */
+    clear_screen();
+    if (!game_over()) {
+      update_people(now - last_update);
+      update_weapon(now - last_update);
+      position_camera();
+      draw_floor();
+      draw_people();
+      draw_weapon();
+      last_update = now;
+    }
+
+    /* Update screen */
+    glFinish();
+    SDL_GL_SwapBuffers();
+
+    /* Read events */
+    while (SDL_PollEvent(&evt)) {
+      switch (evt.type) {
+      case SDL_QUIT:
+        running = 0;
+        break;
+
+      case SDL_KEYDOWN:
+      case SDL_KEYUP:
+        /* Releasing ESC terminates program */
+        if (evt.key.keysym.sym == SDLK_ESCAPE &&
+            evt.type == SDL_KEYUP)
+          running = 0;
+        /* Pressing SPACE or BACKSPACE fire weapon */
+        else if ((evt.key.keysym.sym == SDLK_SPACE ||
+                  evt.key.keysym.sym == SDLK_BACKSPACE) &&
+                 evt.type == SDL_KEYDOWN)
+          player_fire_weapon();
+        /* Directional controls */
+        else if (evt.key.keysym.sym == SDLK_UP ||
+                 evt.key.keysym.sym == (unsigned char)wasd[0])
+          player_set_forward(evt.type == SDL_KEYDOWN);
+        else if (evt.key.keysym.sym == SDLK_LEFT ||
+                 evt.key.keysym.sym == (unsigned char)wasd[1])
+          player_set_left(evt.type == SDL_KEYDOWN);
+        else if (evt.key.keysym.sym == SDLK_DOWN ||
+                 evt.key.keysym.sym == (unsigned char)wasd[2])
+          player_set_backward(evt.type == SDL_KEYDOWN);
+        else if (evt.key.keysym.sym == SDLK_RIGHT ||
+                 evt.key.keysym.sym == (unsigned char)wasd[3])
+          player_set_right(evt.type == SDL_KEYDOWN);
+
+        break;
+      }
+    }
+
+    /* Delay for 16ms to not use too much CPU */
+    SDL_Delay(16);
+  }
+
+  return EXIT_SUCCESS;
 }
