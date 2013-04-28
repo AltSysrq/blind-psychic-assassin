@@ -27,6 +27,6 @@ AC_C_CONST
 AC_TYPE_SIZE_T
 
 # Checks for library functions.
-AC_CHECK_FUNCS([cosf sinf sincosf fmodf fabsf atan2f fmaxf fminf])
+AC_CHECK_FUNCS([cosf sinf sincosf fmodf fabsf atan2f fmaxf fminf sqrtf])
 AC_CONFIG_FILES([Makefile src/Makefile])
 AC_OUTPUT

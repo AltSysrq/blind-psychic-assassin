@@ -322,6 +322,7 @@ int weapon_collides_with_person(float x, float z, float r) {
 
   /* Add person radius to r, then square to get maximum square distance */
   r += 0.1f;
+  r *= sqrtf(2.0f);
   r *= r;
 
   for (i = 1; i < NUM_PEOPLE; ++i) {

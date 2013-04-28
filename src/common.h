@@ -64,6 +64,10 @@ static inline float fminf(float a, float b) {
 }
 #endif
 
+#ifndef HAVE_SQRTF
+#define sqrtf(x) ((float)sqrt(x))
+#endif
+
 #define PI 3.141592653589793f
 
 #endif /* COMMON_H_ */
