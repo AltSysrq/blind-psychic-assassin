@@ -31,5 +31,6 @@
 
 void update_weapon(unsigned);
 void draw_weapon(void);
+void spawn_weapon(float x, float y, float z, float theta);
 
 #endif /* WEAPON_H_ */

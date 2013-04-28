@@ -16,6 +16,7 @@ AC_PROG_CC
 # Checks for libraries.
 PKG_CHECK_MODULES([GL],[gl])
 PKG_CHECK_MODULES([SDL],[sdl])
+AC_SEARCH_LIBS(cos, [m])
 
 # Checks for header files.
 AC_CHECK_HEADERS([errno.h])
@@ -26,5 +27,6 @@ AC_C_CONST
 AC_TYPE_SIZE_T
 
 # Checks for library functions.
+AC_CHECK_FUNCS([cosf sinf sincosf fmodf fabsf atan2f fmaxf])
 AC_CONFIG_FILES([Makefile src/Makefile])
 AC_OUTPUT

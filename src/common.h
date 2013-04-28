@@ -26,22 +26,36 @@
      OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
      SUCH DAMAGE.
 */
-#ifndef PERSON_H_
-#define PERSON_H_
+#ifndef COMMON_H_
+#define COMMON_H_
 
-void init_people(void);
-void update_people(unsigned);
-void draw_people(void);
-void clear_screen(void);
-void position_camera(void);
-int game_over();
+#define MAP_MAX_COORD 128
+#define NUM_NPCS 63
 
-void player_set_forward(int);
-void player_set_backward(int);
-void player_set_left(int);
-void player_set_right(int);
-void player_fire_weapon(void);
+#ifndef HAVE_COSF
+#define cosf(x) ((float)cos(x))
+#endif
 
-int weapon_collides_with_person(float x, float y, float r);
+#ifndef HAVE_SINF
+#define sinf(x) ((float)sin(x))
+#endif
 
-#endif /* PERSON_H_ */
+#ifndef HAVE_FMODF
+#define fmodf(x,y) ((float)fmod(x,y))
+#endif
+
+#ifndef HAVE_ATAN2F
+#define atan2f(x,y) ((float)atan2(x,y))
+#endif
+
+#ifndef HAVE_FABSF
+#define fabsf(x) ((float)fabs(x))
+#endif
+
+#ifndef HAVE_FMAXF
+static inline float fmaxf(float a, float b) {
+  return a > b? a : b;
+}
+#endif
+
+#endif /* COMMON_H_ */

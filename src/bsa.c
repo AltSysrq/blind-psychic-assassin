@@ -26,6 +26,9 @@
      OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
      SUCH DAMAGE.
 */
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <SDL_opengl.h>
 #include <SDL.h>
@@ -95,6 +98,9 @@ int main(int argc, char** argv) {
   glFrustum(-1, 1, -vheight, vheight, 1.0f, 128.0f);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
+
+  /* Init game */
+  init_people();
 
   /* Loop until quit */
   last_update = SDL_GetTicks();
