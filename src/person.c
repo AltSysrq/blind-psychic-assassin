@@ -334,7 +334,8 @@ int weapon_collides_with_person(float x, float z, float r) {
 
       if (d < r) {
         /* Collision */
-        /* TODO: End game if this isn't the target */
+        if (i != target)
+          killed_nontarget = 1;
         people[i].is_alive = 0;
         return 1;
       }
