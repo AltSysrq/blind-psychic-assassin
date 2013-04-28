@@ -1,0 +1,2 @@
+bin_PROGRAMS=blind-psychic-assassin
+blind_psychic_assassin_SOURCES=bsa.c

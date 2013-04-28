@@ -1,3 +1,14 @@
 *~
 *.o
 blind-psychic-assassin
+missing
+install-sh
+stamp-h1
+depcomp
+configure
+config.*
+autom4te.cache
+aclocal.m4
+*.in
+Makefile
+.deps
