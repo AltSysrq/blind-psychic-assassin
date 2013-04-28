@@ -4,7 +4,7 @@
 AC_PREREQ([2.6])
 AC_INIT([blind-psychic-assassin], [1.0.0], [jlingle@mines.edu])
 AM_INIT_AUTOMAKE
-AC_CONFIG_SRCDIR([src/bsa.c])
+AC_CONFIG_SRCDIR([src/main.c])
 AC_CONFIG_HEADERS([config.h])
 AM_SILENT_RULES(yes)
 AM_MAINTAINER_MODE
