@@ -35,7 +35,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
+#include <ctype.h>
 
 #include "person.h"
 #include "weapon.h"
@@ -47,8 +49,32 @@ int main(int argc, char** argv) {
   float vheight;
   int running = 1;
   Uint32 last_update, now;
-  const char* wasd = "liae";
+  char wasd[4] = { 'w', 'a', 's', 'd' };
   SDL_Event evt;
+  unsigned i;
+
+  /* Check arguments.
+   * We only support one, which must be four characters long. On anything else
+   * (but none, where we assume the default), print help and exit. This
+   * conveniently includes "-h", "-help", "--help", "/?", and most other things
+   * someone might be inclined to use to request usage.
+   */
+  if (argc > 2 || (argc == 2 && strlen(argv[1]) != sizeof(wasd))) {
+    fprintf(stderr, "Usage: %s [WASD]\n", argv[0]);
+    fprintf(stderr,
+            "  If given, WASD is a four-character string specifying alternate\n"
+            "  keybindings for up, left, down, and right, in that order.\n"
+            "  These MUST be ASCII characters, and should be letters only,\n"
+            "  though other characters may work as well.\n"
+            "  Eg, if you used the Neo2 keyboard layout, you might run\n"
+            "    %s VUIA\n",
+            argv[0]);
+    return EXIT_FAILURE;
+  }
+
+  if (2 == argc)
+    for (i = 0; i < sizeof(wasd); ++i)
+      wasd[i] = tolower(argv[1][i]);
  
   /* Initialise */
   if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO)) {
