@@ -48,13 +48,13 @@
 
 #include "person.h"
 #include "weapon.h"
+#include "model.h"
 #include "common.h"
 
 #define NUM_PEOPLE (NUM_NPCS+1)
 #define PERSON_SPEED 1.0f
 #define PLAYER_SPEED 1.5f
 #define MAX_VTHETA 360.0f
-#define PI 3.141592653589793f
 #define SLEEP_TIME 4.0f
 #define SLEEP_TIME_OFF 1.5f
 #define MOVE_TIME 10.0f
@@ -257,15 +257,6 @@ static const float gun[][3] = {
   { +0.25f, 0.525f, 0.75f },
   { -0.25f, 0.525f, 0.75f },
 };
-
-static void draw_model(const float (*model)[3], unsigned cnt) {
-  unsigned i;
-
-  glBegin(GL_QUADS);
-  for (i = 0; i < cnt; ++i)
-    glVertex3fv(model[i]);
-  glEnd();
-}
 
 static void position_person(unsigned ix) {
   glTranslatef(people[ix].x, 0, people[ix].z);

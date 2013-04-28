@@ -26,44 +26,9 @@
      OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
      SUCH DAMAGE.
 */
-#ifndef COMMON_H_
-#define COMMON_H_
+#ifndef MODEL_H_
+#define MODEL_H_
 
-#define MAP_MAX_COORD 128
-#define NUM_NPCS 63
+void draw_model(const float (*model)[3], unsigned cnt);
 
-#ifndef HAVE_COSF
-#define cosf(x) ((float)cos(x))
-#endif
-
-#ifndef HAVE_SINF
-#define sinf(x) ((float)sin(x))
-#endif
-
-#ifndef HAVE_FMODF
-#define fmodf(x,y) ((float)fmod(x,y))
-#endif
-
-#ifndef HAVE_ATAN2F
-#define atan2f(x,y) ((float)atan2(x,y))
-#endif
-
-#ifndef HAVE_FABSF
-#define fabsf(x) ((float)fabs(x))
-#endif
-
-#ifndef HAVE_FMAXF
-static inline float fmaxf(float a, float b) {
-  return a > b? a : b;
-}
-#endif
-
-#ifndef HAVE_FMINF
-static inline float fminf(float a, float b) {
-  return a < b? a : b;
-}
-#endif
-
-#define PI 3.141592653589793f
-
-#endif /* COMMON_H_ */
+#endif /* MODEL_H_ */
