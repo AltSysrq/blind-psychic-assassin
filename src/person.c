@@ -80,6 +80,8 @@ static void update_person_theta(unsigned, float, float vel);
 static void update_player(float);
 static void update_person(unsigned, float);
 
+static int can_move_to(unsigned, float, float);
+
 void init_people(void) {
   unsigned i;
 
@@ -104,7 +106,7 @@ void update_people(unsigned et) {
 
 static void update_person_xz(unsigned ix, float et, float vmul) {
   float speed = (ix? PERSON_SPEED : PLAYER_SPEED) * vmul;
-  float tcos, tsin, theta;
+  float tcos, tsin, theta, nx, nz;
   theta = people[ix].theta / 360.0f * PI * 2.0f;
 #ifdef HAVE_SINCOSF
   sincosf(theta, &tsin, &tcos);
@@ -113,8 +115,12 @@ static void update_person_xz(unsigned ix, float et, float vmul) {
   tsin = sinf(theta);
 #endif
 
-  people[ix].x += tcos * speed * et;
-  people[ix].z += tsin * speed * et;
+  nx = people[ix].x + tcos * speed * et;
+  nz = people[ix].z + tsin * speed * et;
+  if (can_move_to(ix, nx, nz)) {
+    people[ix].x = nx;
+    people[ix].z = nz;
+  }
 }
 
 static void update_person_theta(unsigned ix, float et, float vel) {
@@ -164,6 +170,33 @@ static void update_person(unsigned ix, float et) {
     update_person_xz(ix, et, 1.0f);
     update_person_theta(ix, et, people[ix].vtheta);
   }
+}
+
+static int can_move_to(unsigned i, float nx, float nz) {
+  float dx, dz, d, ndx, ndz, nd;
+  float r = 2 * 0.1f * sqrtf(2.0f);
+  unsigned j;
+  r *= r;
+
+  /* Forbid the move if the new position collides with another person and if
+   * that move does not increase the distance between them when the old
+   * position does collide.
+   */
+  for (j = 0; j < NUM_PEOPLE; ++j) {
+    if (i != j && people[j].is_alive) {
+      dx = people[i].x - people[j].x;
+      dz = people[i].z - people[j].z;
+      ndx = nx - people[j].x;
+      ndz = nz - people[j].z;
+      d = dx*dx + dz*dz;
+      nd = ndx*ndx + ndz*ndz;
+
+      if (nd < r && (d >= r || nd <= d))
+        return 0;
+    }
+  }
+
+  return 1;
 }
 
 int game_over(void) {
