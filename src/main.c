@@ -117,7 +117,7 @@ int main(int argc, char** argv) {
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_FOG);
   glFogi(GL_FOG_MODE, GL_LINEAR);
-  glFogf(GL_FOG_DENSITY, 0.25f);
+  glFogf(GL_FOG_DENSITY, 1.0f);
   glFogf(GL_FOG_START, 1.0f);
   glFogf(GL_FOG_END, (float)MAP_MAX_COORD*2);
 
