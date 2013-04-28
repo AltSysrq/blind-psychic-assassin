@@ -322,3 +322,29 @@ void player_set_left(int i) {
 void player_set_right(int i) {
   adjust_ctl(&player_right, i);
 }
+
+int weapon_collides_with_person(float x, float z, float r) {
+  unsigned i;
+  float dx, dz, d;
+
+  /* Add person radius to r, then square to get maximum square distance */
+  r += 0.1f;
+  r *= r;
+
+  for (i = 1; i < NUM_PEOPLE; ++i) {
+    if (people[i].is_alive) {
+      dx = x - people[i].x;
+      dz = z - people[i].z;
+      d = dx*dx + dz*dz;
+
+      if (d < r) {
+        /* Collision */
+        /* TODO: End game if this isn't the target */
+        people[i].is_alive = 0;
+        return 1;
+      }
+    }
+  }
+
+  return 0;
+}

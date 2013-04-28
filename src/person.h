@@ -42,6 +42,6 @@ void player_set_left(int);
 void player_set_right(int);
 void player_fire_weapon(void);
 
-int weapon_collides_with_person(float x, float y, float r);
+int weapon_collides_with_person(float x, float z, float r);
 
 #endif /* PERSON_H_ */
