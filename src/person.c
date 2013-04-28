@@ -129,7 +129,7 @@ static void update_person_theta(unsigned ix, float et, float vel) {
 static void update_player(float et) {
   float vtheta = PLAYER_VTHETA;
   update_person_xz(0, et, 1.0f*!!player_forward - 1.0f*!!player_backward);
-  update_person_theta(0, et, vtheta*!!player_left - vtheta*!!player_right);
+  update_person_theta(0, et, vtheta*!!player_right - vtheta*!!player_left);
 }
 
 static void update_person(unsigned ix, float et) {
