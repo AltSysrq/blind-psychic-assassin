@@ -16,9 +16,6 @@ AC_PROG_CC
 # Checks for libraries.
 PKG_CHECK_MODULES([GL],[gl])
 PKG_CHECK_MODULES([SDL],[sdl])
-CFLAGS="$CFLAGS $GL_CFLAGS $SLD_CFLAGS"
-LDADD="$LDADD $GL_LIBS $SDL_LIBS"
-export CFLAGS LDADD
 
 # Checks for header files.
 AC_CHECK_HEADERS([errno.h])

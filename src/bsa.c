@@ -27,6 +27,9 @@
      SUCH DAMAGE.
 */
 
+#include <SDL_opengl.h>
+#include <SDL.h>
+
 #include <stdio.h>
 
 int main(void) {
