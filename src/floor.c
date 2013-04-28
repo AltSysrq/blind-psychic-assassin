@@ -26,42 +26,55 @@
      OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
      SUCH DAMAGE.
 */
-#ifndef COMMON_H_
-#define COMMON_H_
-
-#define MAP_MAX_COORD 128
-#define NUM_NPCS 63
-
-#ifndef HAVE_COSF
-#define cosf(x) ((float)cos(x))
+#ifndef _ISOC99_SOURCE
+#define _ISOC99_SOURCE
 #endif
 
-#ifndef HAVE_SINF
-#define sinf(x) ((float)sin(x))
+#ifdef HAVE_CONFIG_H
+#include <config.h>
 #endif
 
-#ifndef HAVE_FMODF
-#define fmodf(x,y) ((float)fmod(x,y))
-#endif
+#include <SDL_opengl.h>
+#include <math.h>
 
-#ifndef HAVE_ATAN2F
-#define atan2f(x,y) ((float)atan2(x,y))
-#endif
+#include "floor.h"
+#include "common.h"
 
-#ifndef HAVE_FABSF
-#define fabsf(x) ((float)fabs(x))
-#endif
+static void colour_at(float* colour, float x, float z) {
+  /* Normalise to (0..1) */
+  x = (x + MAP_MAX_COORD) / (2.0f * MAP_MAX_COORD);
+  z = (z + MAP_MAX_COORD) / (2.0f * MAP_MAX_COORD);
 
-#ifndef HAVE_FMAXF
-static inline float fmaxf(float a, float b) {
-  return a > b? a : b;
+  /* Red: Decreases with increase of min(x,z) */
+  colour[0] = 1.0f - fminf(x, z);
+  /* Green: Linear with x */
+  colour[1] = x;
+  /* Blue: Linear with z */
+  colour[2] = z;
 }
-#endif
 
-#ifndef HAVE_FMINF
-static inline float fminf(float a, float b) {
-  return a < b? a : b;
+static void floor_vertex(float x, float z) {
+  float colour[3];
+  colour_at(colour, x, z);
+  glColor3fv(colour);
+  glVertex3f(x, 0.0f, z);
 }
-#endif
 
-#endif /* COMMON_H_ */
+void draw_floor(void) {
+  signed x, z;
+  float fx, fz;
+
+  glBegin(GL_QUADS);
+  for (z = -MAP_MAX_COORD; z < MAP_MAX_COORD; ++z) {
+    fz = z;
+    for (x = -MAP_MAX_COORD; x < MAP_MAX_COORD; ++x) {
+      fx = x;
+
+      floor_vertex(fx+0.05f, fz+0.05f);
+      floor_vertex(fx+0.95f, fz+0.05f);
+      floor_vertex(fx+0.95f, fz+0.95f);
+      floor_vertex(fx+0.05f, fz+0.95f);
+    }
+  }
+  glEnd();
+}
