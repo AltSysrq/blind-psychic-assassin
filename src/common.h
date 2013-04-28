@@ -29,7 +29,7 @@
 #ifndef COMMON_H_
 #define COMMON_H_
 
-#define MAP_MAX_COORD 128
+#define MAP_MAX_COORD 32
 #define NUM_NPCS 63
 
 #ifndef HAVE_COSF

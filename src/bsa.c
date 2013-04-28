@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
   screen = SDL_SetVideoMode(vidinfo->current_w,
                             vidinfo->current_h,
                             0,
-                            SDL_OPENGL | SDL_FULLSCREEN);
+                            SDL_OPENGL /*| SDL_FULLSCREEN*/);
   if (!screen) {
     fprintf(stderr, "Unable to create SDL screen: %s\n",
             SDL_GetError());
@@ -80,7 +80,7 @@ int main(int argc, char** argv) {
   /* Some WMs, such as early versions of kwin4, need to be reminded that
    * fullscreen windows get input.
    */
-  SDL_WM_GrabInput(SDL_GRAB_ON);
+  /*SDL_WM_GrabInput(SDL_GRAB_ON);*/
 
   /* Set OpenGL up */
   glViewport(0, 0, vidinfo->current_w, vidinfo->current_h);
@@ -95,7 +95,7 @@ int main(int argc, char** argv) {
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  glFrustum(-1, 1, -vheight, vheight, 1.0f, 128.0f);
+  glFrustum(-1, 1, -vheight, vheight, 1.0f, 64.0f);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 

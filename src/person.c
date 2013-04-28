@@ -54,7 +54,8 @@
 #define NUM_PEOPLE (NUM_NPCS+1)
 #define PERSON_SPEED 1.0f
 #define PLAYER_SPEED 1.5f
-#define MAX_VTHETA 360.0f
+#define MAX_VTHETA 15.0f
+#define PLAYER_VTHETA 90.0f
 #define SLEEP_TIME 4.0f
 #define SLEEP_TIME_OFF 1.5f
 #define MOVE_TIME 10.0f
@@ -126,7 +127,7 @@ static void update_person_theta(unsigned ix, float et, float vel) {
 }
 
 static void update_player(float et) {
-  float vtheta = MAX_VTHETA;
+  float vtheta = PLAYER_VTHETA;
   update_person_xz(0, et, 1.0f*!!player_forward - 1.0f*!!player_backward);
   update_person_theta(0, et, vtheta*!!player_left - vtheta*!!player_right);
 }
@@ -149,9 +150,10 @@ static void update_person(unsigned ix, float et) {
       /* Direct toward centre if too far away */
       if (MAP_MAX_COORD*0.75f <
           fmaxf(fabsf(people[ix].x), fabsf(people[ix].z))) {
-        people[ix].theta = -atan2f(people[ix].z, people[ix].x) * 180.0f / PI;
+        people[ix].theta = atan2f(people[ix].z, people[ix].x) * 180.0f / PI;
         if (people[ix].theta < 0)
           people[ix].theta += 360;
+        people[ix].theta = 180 - people[ix].theta;
 
         people[ix].vtheta /= 8.0f;
       }
@@ -172,9 +174,9 @@ int game_over(void) {
 
   for (i = 1; i < NUM_PEOPLE; ++i)
     if (people[i].is_alive)
-      return 1;
+      return 0;
 
-  return 0;
+  return 1;
 }
 
 static void choose_target(void) {
@@ -194,8 +196,8 @@ void position_camera(void) {
 
   if (target) {
     glLoadIdentity();
+    glRotatef(people[target].theta+90, 0, 1, 0);
     glTranslatef(-people[target].x, -0.5f, -people[target].z);
-    glRotatef(people[target].theta, 0, 1, 0);
   }
 }
 
