@@ -95,7 +95,7 @@ int main(int argc, char** argv) {
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  glFrustum(-1, 1, -vheight, vheight, 1.0f, 64.0f);
+  glFrustum(-0.5, 0.5, -vheight/2, vheight/2, 0.5f, 64.0f);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 
