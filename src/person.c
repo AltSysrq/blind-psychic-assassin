@@ -287,7 +287,8 @@ void draw_people(void) {
   unsigned i;
 
   for (i = 0; i < NUM_PEOPLE; ++i)
-    draw_person(i);
+    if (people[i].is_alive)
+      draw_person(i);
 }
 
 void player_fire_weapon(void) {
