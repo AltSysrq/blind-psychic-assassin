@@ -132,7 +132,7 @@ void spawn_weapon(float x, float y, float z, float theta) {
 #endif
 
   /* Find first dead weapon */
-  for (i = 0; i < MAX_WEAPONS && !weapons[i].is_alive; ++i);
+  for (i = 0; i < MAX_WEAPONS && weapons[i].is_alive; ++i);
 
   /* Do nothing if none are free */
   if (i >= MAX_WEAPONS) return;
