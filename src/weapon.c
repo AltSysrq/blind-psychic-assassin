@@ -45,7 +45,7 @@
 
 #define MAX_WEAPONS 256
 #define RADIUS 0.05f
-#define SPEED 2.5f
+#define SPEED 12.5f
 
 static struct {
   float x, y, z, vx, vz;
