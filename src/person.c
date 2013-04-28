@@ -53,7 +53,7 @@
 
 #define NUM_PEOPLE (NUM_NPCS+1)
 #define PERSON_SPEED 1.0f
-#define PLAYER_SPEED 1.5f
+#define PLAYER_SPEED 2.0f
 #define MAX_VTHETA 30.0f
 #define PLAYER_VTHETA 45.0f
 #define SLEEP_TIME 4.0f
