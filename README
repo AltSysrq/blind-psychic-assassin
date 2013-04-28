@@ -1,0 +1,40 @@
+Blind Psychic Assassin
+======================
+
+Compiling and Installation
+--------------------------
+If you cloned the raw git repository, you need Autotools (autoconf, automake,
+pkg-config), and must first run
+  autoreconf -i
+
+To compile, you need SDL and OpenGL, as well as a compiler and pkg-config. On
+Debian/Ubuntu you can get these packages with
+----------------
+  sudo apt-get install libgl1-mesa-dev libsdl1.2-dev build-essential pkg-config
+----------------
+
+Once everything is installed, run
+----------------
+  ./configure
+  make
+  sudo make install
+----------------
+
+You can run the program simply as
+----------------
+  blind-psychic-assassin
+----------------
+
+Gameplay
+--------
+In Blind Psychic Assassin, you play the part of a blind assassin who is forced
+to see from other people's perspectives. You must therefore lift this curse by
+assassinating the person whose sight you share, until none remain. You lose if
+you kill a yet-innocent non-target.
+
+Use the arrow keys or WASD to move and rotate your character (the red one with
+the gun) and space or backspace to shoot. You have no control over your
+perspective; wait until your target can see you. Press escape to quit.
+
+The alternate WASD controls can be changed by specifying a four-letter string
+as a command-line argument, eg "vuia" for the Neo2 keyboard layout.
