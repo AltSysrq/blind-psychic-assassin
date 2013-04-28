@@ -35,6 +35,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "person.h"
 #include "weapon.h"
@@ -100,6 +101,7 @@ int main(int argc, char** argv) {
   glLoadIdentity();
 
   /* Init game */
+  srand(time(0));
   init_people();
 
   /* Loop until quit */
